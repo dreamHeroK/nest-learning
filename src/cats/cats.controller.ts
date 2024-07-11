@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
 import { CatDto } from './cats.dto';
 
 @Controller('cats')
@@ -8,8 +8,9 @@ export class CatsController {
         return 'black cat tommy'
     }
 
-    @Post()
+    @Post('create')
     create(@Body() catDto: CatDto): string {
+        console.log(catDto,'catDto')
         return 'create cat'
     }
 
@@ -18,4 +19,10 @@ export class CatsController {
         console.log(params, params.id)
         return `findd ${params.id} cat`
     }
+
+    @Delete(':id')
+    remove(@Param('id') id: string): string {
+        return `remove ${id} cat`
+    }
+
 }
