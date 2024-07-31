@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
-import { CatDto } from './cats.dto';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Req, UsePipes } from '@nestjs/common';
+import { ValidationPipe } from '../common/pipes/validation.pipe';
+import { CatDto, CreateCatDto, createCateScheme } from './cats.dto';
 import { CatsService } from './cats.service';
 
 @Controller('cats')
@@ -13,7 +14,8 @@ export class CatsController {
     }
 
     @Post('create')
-    create(@Body() catDto: CatDto): void {
+    @UsePipes(new ValidationPipe(createCateScheme))
+    create(@Body() catDto: CreateCatDto): void {
         this.catsService.create(catDto)
     }
 
@@ -23,9 +25,8 @@ export class CatsController {
     }
 
     @Get(':id')
-    findOne(@Param() params: any): string {
-        console.log(params, params.id)
-        return `findd ${params.id} cat`
+    findOne(@Param('id', ParseIntPipe) id: any): string {
+        return `findd ${id} cat`
     }
 
     @Delete(':id')

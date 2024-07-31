@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CatDto } from './cats.dto';
+import { CatDto, CreateCatDto } from './cats.dto';
 import { Cat } from './interfaces/cats';
 
 @Injectable()
 export class CatsService {
-    private readonly cats: Cat[] = [];
+    private readonly cats: CatDto[] = [];
 
-    create(catDto: CatDto) {
+    create(catDto: CreateCatDto) {
         this.cats.push(catDto);
     }
 
